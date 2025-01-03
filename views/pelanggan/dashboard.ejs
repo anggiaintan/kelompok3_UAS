@@ -161,6 +161,13 @@
                     <h3><%= item.nama_bunga %></h3>
                     <p><%= item.deskripsi %></p>
                     <p>Harga: Rp<%= item.harga %></p>
+                    <div class="beli">
+                        <form action="/pesanan/buat" method="POST">
+                            <input type="hidden" name="kd_bunga" value="<%= item.kd_bunga %>">
+                            <input type="hidden" name="id_pelanggan" value="<%= id_pelanggan %>"> <!-- Menambahkan id_pelanggan -->
+                            <button type="submit">Beli</button>
+                        </form>         
+                    </div>
                 </div>
             <% }) %>
         </div>

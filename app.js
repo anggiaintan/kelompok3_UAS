@@ -20,10 +20,12 @@ app.use(session({
 const pelangganRoutes = require('./routes/pelanggan');
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
+const pesananRoutes = require('./routes/pesanan'); // Tambahkan ini
 
 app.use('/pelanggan', pelangganRoutes);
 app.use('/admin', adminRoutes);
 app.use('/auth', authRoutes);
+app.use('/pesanan', pesananRoutes); // Tambahkan ini
 
 // Default route
 app.get('/', (req, res) => {
@@ -33,3 +35,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
+
