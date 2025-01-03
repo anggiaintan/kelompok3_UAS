@@ -37,4 +37,16 @@ router.post('/signup', (req, res) => {
         });
 });
 
+// Logout
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error saat logout:', err);
+            return res.redirect('/'); // Jika gagal logout, arahkan ke halaman utama
+        }
+        res.clearCookie('connect.sid'); // Hapus cookie sesi
+        res.redirect('/auth/login'); // Arahkan ke halaman login
+    });
+});
+
 module.exports = router;
