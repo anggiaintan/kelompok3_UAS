@@ -1,64 +1,105 @@
+// routes/pelanggan.js
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
 // Halaman Dashboard Pelanggan
 router.get('/', (req, res) => {
-    // Periksa apakah user sudah login
     const isLoggedIn = req.session.user ? true : false;
     const username = isLoggedIn ? req.session.user.nama_pelanggan : null;
-    const id_pelanggan = isLoggedIn ? req.session.user.id_pelanggan : null; // Menambahkan id_pelanggan dari sesi
+    const id_pelanggan = isLoggedIn ? req.session.user.id_pelanggan : null;
 
-    // Mengambil semua bunga
     db.query('SELECT * FROM bunga', (err, results) => {
         if (err) throw err;
 
-        // Render halaman dashboard dan kirim data bunga, status login, username, dan id_pelanggan
         res.render('pelanggan/dashboard', {
             bunga: results,
-            isLoggedIn: isLoggedIn,
-            username: username,
-            id_pelanggan: id_pelanggan, // Mengirim id_pelanggan ke view
+            isLoggedIn,
+            username,
+            id_pelanggan,
         });
     });
 });
 
 // Proses Pembelian Bunga
 router.post('/beli', (req, res) => {
-    // Periksa apakah user sudah login
     if (!req.session.user) return res.redirect('/auth/login');
 
     const { kd_bunga, jumlah } = req.body;
 
-    // Query untuk mengambil data bunga
+    if (jumlah <= 0 || isNaN(jumlah)) {
+        return res.status(400).send('Jumlah harus angka positif.');
+    }
+
     db.query('SELECT * FROM bunga WHERE kd_bunga = ?', [kd_bunga], (err, results) => {
         if (err) throw err;
 
-        // Jika bunga ditemukan dan stok mencukupi
         if (results.length > 0 && results[0].stok >= jumlah) {
             const totalHarga = results[0].harga * jumlah;
 
-            // Menyimpan pesanan ke tabel pesanan
             db.query(
-                'INSERT INTO pesanan (id_pelanggan, tgl_pesan, total_harga) VALUES (?, NOW(), ?)',
-                [req.session.user.id_pelanggan, totalHarga],
-                (err, result) => {
+                'INSERT INTO pesanan (id_pelanggan, kd_bunga, tgl_pesan, total_harga) VALUES (?, ?, NOW(), ?)',
+                [req.session.user.id_pelanggan, kd_bunga, totalHarga],
+                (err) => {
                     if (err) throw err;
 
-                    // Update stok bunga setelah pesanan
                     db.query('UPDATE bunga SET stok = stok - ? WHERE kd_bunga = ?', [jumlah, kd_bunga], (err) => {
                         if (err) throw err;
 
-                        // Setelah berhasil, arahkan kembali ke halaman dashboard
                         res.redirect('/pelanggan');
                     });
                 }
             );
         } else {
-            // Jika stok tidak mencukupi, kirimkan pesan error
-            res.send('Stok tidak mencukupi.');
+            res.status(400).send('Stok tidak mencukupi atau bunga tidak ditemukan.');
         }
     });
 });
+
+
+// Proses Pembayaran
+router.post('/bayar', (req, res) => {
+    if (!req.session.user) return res.redirect('/auth/login');
+
+    const { kd_bunga, harga, metode_pembayaran } = req.body;
+    const id_pelanggan = req.session.user.id_pelanggan;
+
+    if (!kd_bunga || !harga || !metode_pembayaran) {
+        return res.status(400).send('Data tidak lengkap.');
+    }
+
+    db.query(
+        'INSERT INTO pesanan (id_pelanggan, kd_bunga, metode_pembayaran, total_harga, tgl_pesan) VALUES (?, ?, ?, ?, NOW())',
+        [id_pelanggan, kd_bunga, metode_pembayaran, harga],
+        (err) => {
+            if (err) throw err;
+
+            res.redirect('/pelanggan/selesai');
+        }
+    );
+});
+
+// Halaman Selesai
+router.get('/selesai', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/auth/login'); // Redirect jika belum login
+    }
+
+    const id_pelanggan = req.session.user.id_pelanggan;
+
+    db.query(
+        'SELECT * FROM pesanan WHERE id_pelanggan = ? ORDER BY kd_pesanan DESC LIMIT 1',
+        [id_pelanggan],
+        (err, results) => {
+            if (err) throw err;
+
+            res.render('pelanggan/selesai', {
+                username: req.session.user.nama_pelanggan,
+                pesanan: results[0] || null,
+            });
+        }
+    );
+});
+
 
 module.exports = router;

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Selesai | Toko Bunga</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .success-container {
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .success-icon {
+            color: #4CAF50;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .order-details div {
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            background-color: #81C784;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background-color: #66BB6A;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✓</div>
+        <h1>Pesanan Berhasil!</h1>
+        <p>Terima kasih telah berbelanja di Toko Bunga kami.</p>
+
+        <% if(pesanan) { %>
+            <div class="order-details">
+                <div><strong>Nomor Pesanan:</strong> #<%= pesanan.kd_pesanan %></div>
+                <div><strong>Tanggal Pesanan:</strong> <%= new Date(pesanan.tgl_pesan).toLocaleString('id-ID') %></div>
+                <div><strong>Total Pembayaran:</strong> Rp <%= pesanan.total_harga.toLocaleString('id-ID') %></div>
+                <div><strong>Metode Pembayaran:</strong> <%= pesanan.metode_pembayaran %></div>
+            </div>
+        <% } %>
+
+        <a href="/pelanggan" class="back-button">Kembali ke Beranda</a>
+    </div>
+</body>
+</html>
