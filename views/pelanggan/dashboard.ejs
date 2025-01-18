@@ -11,9 +11,11 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f7f7f7;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #ffec85 100%); /* Gradasi warna segar */
             color: #333;
+            min-height: 100vh;
         }
+<<<<<<< HEAD
         @font-face {
             font-family: 'Adawet';
             src: url('/fonts/Adawet.ttf') format('truetype');
@@ -24,6 +26,10 @@
         /* Header Toko Bunga */
         .header-toko {
             background: linear-gradient(135deg, #8E2DE2, #5f24d5);
+=======
+        header {
+            background-color:#4FC3F7; /* Hijau pastel */
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
             color: white;
             padding: 20px;
         }
@@ -42,7 +48,7 @@
             text-align: center;
             font-size: 2.2em;
             margin-bottom: 30px;
-            color: #D1C4E9; /* Pastel Lavender */
+            color: #4FC3F7; /* Biru pastel */
         }
 
         .katalog {
@@ -62,7 +68,11 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+<<<<<<< HEAD
             padding: 20px; /* Padding untuk konten di dalam card */
+=======
+            padding: 15px;
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
         }
         .bunga:hover {
             transform: translateY(-5px);
@@ -73,30 +83,53 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
+<<<<<<< HEAD
             border-radius: 20px; /* Sudut gambar tumpul */
+=======
+            border-radius: 10px;
+            margin-bottom: 10px;
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
         }
 
         .bunga h3 {
-            margin: 10px;
+            margin: 10px 0;
             font-size: 1.3em;
+<<<<<<< HEAD
             color: #9b8cf9; /* Pastel Green */
+=======
+            color: #388E3C; /* Hijau gelap */
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
         }
 
         .bunga p {
-            margin: 0 10px 10px;
+            margin: 5px 0;
             font-size: 1em;
-            color: #757575; /* Gray Text */
+            color: #757575; /* Teks abu-abu */
         }
 
         .bunga p:last-child {
             font-weight: bold;
-            color: #4FC3F7; /* Pastel Blue */
+            color: #0288D1; /* Biru */
         }
+<<<<<<< HEAD
 
         /* Styling untuk tombol "Pesan" */
         .pesanBtn {
             display: block;
             margin: 20px auto 10px; /* Memusatkan tombol dan memberikan jarak */
+=======
+        footer {
+            background-color: #FFECB3; /* Kuning pastel */
+            color: #333;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 50px;
+        }
+        button {
+            background-color: #81C784; /* Hijau pastel */
+            border: none;
+            color: white;
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
             padding: 10px 20px;
             background-color: #8E2DE2; /* Warna ungu */
             color: white;
@@ -107,10 +140,16 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
+<<<<<<< HEAD
 
         .pesanBtn:hover {
             background-color: #5f24d5; /* Warna ungu lebih gelap saat hover */
             transform: translateY(-2px); /* Efek hover sedikit naik */
+=======
+        button:hover {
+            background-color: #66BB6A; /* Hijau lebih gelap */
+            transform: translateY(-3px);
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
         }
 
         /* Modal untuk mengisi pesanan */
@@ -153,6 +192,7 @@
         #notFoundMessage {
             text-align: center;
             font-size: 1.2em;
+<<<<<<< HEAD
             color: #f44336; /* Red color for error message */
         }
 
@@ -231,6 +271,10 @@
             background: linear-gradient(135deg, #8E2DE2, #5f24d5);
             color: white; /* Warna teks footer */
             margin-top: 40px; /* Jarak antara konten utama dan footer */
+=======
+            color: #f44336; /* Merah */
+            margin-top: 20px;
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
         }
     </style>
 </head>
@@ -261,9 +305,21 @@
                     <img src="<%= item.gambar %>" alt="<%= item.nama_bunga %>">
                     <h3><%= item.nama_bunga %></h3>
                     <p><%= item.deskripsi %></p>
+<<<<<<< HEAD
                     <p>Rp.<%= item.harga %></p>
                     <p>Stok: <%= item.stok %></p>
                     <button class="pesanBtn">Pesan</button>
+=======
+                    <p>Harga: Rp<%= item.harga %></p>
+                    <p>Stok: <%= item.stok %></p>
+                    <div class="beli">
+                        <form action="/pesanan/buat" method="POST">
+                            <input type="hidden" name="kd_bunga" value="<%= item.kd_bunga %>">
+                            <input type="hidden" name="id_pelanggan" value="<%= id_pelanggan %>">
+                            <button type="submit">Beli</button>
+                        </form>         
+                    </div>
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
                 </div>
             <% }) %>
         </div>

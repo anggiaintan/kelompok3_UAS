@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Kelola Pesanan | Toko Bunga</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+=======
+    <title>Kelola Pesanan | Admin</title>
+    <link rel="stylesheet" href="/css/styles.css">
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
+<<<<<<< HEAD
             background-color: #f7f7f7;
             color: #333;
         }
@@ -83,11 +89,63 @@
         }
         .btn:hover {
             background-color: #66BB6A;
+=======
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        header {
+            background-color: #6A1B9A; /* Deep Purple */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.2em;
+            margin: 0;
+        }
+        main {
+            padding: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #7E57C2; /* Lighter Purple */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        table th {
+            background-color: #6A1B9A;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .actions a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            background-color: #E53935; /* Red */
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .actions a:hover {
+            background-color: #D32F2F; /* Darker Red */
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c
         }
     </style>
 </head>
 <body>
     <header>
+<<<<<<< HEAD
         <!-- Tombol Back -->
         <a href="/admin/dashboard" class="back-button">Back</a>
         <h1>Kelola Pesanan</h1>
@@ -150,3 +208,44 @@
     </script>
 </body>
 </html>
+=======
+        <h1>Kelola Pesanan</h1>
+    </header>
+
+    <main>
+        <h2>Daftar Pesanan</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Kode Pesanan</th>
+                    <th>Tanggal Pesan</th>
+                    <th>Total Harga</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (pesanan.length > 0) { %>
+                    <% pesanan.forEach((p) => { %>
+                        <tr>
+                            <td><%= p.kd_pesanan %></td>
+                            <td><%= p.tgl_pesan %></td>
+                            <td>Rp<%= p.total_harga %></td>
+                            <td><%= p.nama_pelanggan %></td>
+                            <td class="actions">
+                                <a href="/admin/pesanan/delete/<%= p.kd_pesanan %>">Hapus</a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5" style="text-align: center;">Tidak ada pesanan.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
+>>>>>>> 430d3d604ca949211fd6d0d480f643c208ff9f8c

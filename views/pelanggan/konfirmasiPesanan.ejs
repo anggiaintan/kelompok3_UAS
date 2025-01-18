@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Pesanan | Toko Bunga</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        header {
+            background-color: #FFB6C1;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .bunga {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .bunga img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #81C784;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #66BB6A;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Konfirmasi Pesanan</h1>
+    </header>
+
+    <main>
+        <div class="bunga">
+            <img src="<%= bunga.gambar %>" alt="<%= bunga.nama_bunga %>">
+            <h3><%= bunga.nama_bunga %></h3>
+            <p><%= bunga.deskripsi %></p>
+            <p class="price">Harga: Rp <%= bunga.harga.toLocaleString('id-ID') %></p>
+
+            <form id="pembayaranForm" action="/pelanggan/pesanan/bayar" method="POST">
+                <input type="hidden" name="kd_bunga" value="<%= bunga.kd_bunga %>">
+                <input type="hidden" name="total_harga" value="<%= bunga.harga %>">
+
+                <div class="form-group">
+                    <label for="metode_pembayaran">Metode Pembayaran:</label>
+                    <select name="metode_pembayaran" id="metode_pembayaran" required>
+                        <option value="" disabled selected>Pilih metode pembayaran</option>
+                        <option value="transfer_bank">Transfer Bank</option>
+                        <option value="gopay">GoPay</option>
+                        <option value="ovo">OVO</option>
+                        <option value="cod">Bayar di Tempat (COD)</option>
+                    </select>
+                </div>
+
+                <button type="submit">Bayar Sekarang</button>
+            </form>
+
+            <div id="loading" class="loading">
+                Memproses pembayaran...
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('pembayaranForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const result = await Swal.fire({
+                title: 'Konfirmasi Pembayaran',
+                text: 'Apakah Anda yakin ingin membeli bunga ini?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Bayar Sekarang',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            });
+
+            if (result.isConfirmed) {
+                document.getElementById('loading').style.display = 'block';
+                
+                try {
+                    const formData = new FormData(this);
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(Object.fromEntries(formData))
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Pembayaran telah berhasil dilakukan',
+                            icon: 'success'
+                        });
+                        window.location.href = '/pelanggan/pesanan/selesai';
+                    } else {
+                        throw new Error(data.message || 'Pembayaran gagal');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    await Swal.fire({
+                        title: 'Error!',
+                        text: error.message || 'Terjadi kesalahan saat memproses pembayaran',
+                        icon: 'error'
+                    });
+                } finally {
+                    document.getElementById('loading').style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
