@@ -13,6 +13,22 @@
             background-color: #f7f7f7;
             color: #333;
         }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #FFB6C1; /* Pastel Pink */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #ff94a8; /* Warna lebih gelap saat hover */
+            transform: translateY(-2px);
+        }
         h1 {
             text-align: center;
             color: #FFB6C1; /* Pastel Pink */
@@ -94,6 +110,9 @@
     </style>
 </head>
 <body>
+    <!-- Tombol Back -->
+    <a href="/admin/dashboard" class="back-button">Back</a>
+
     <h1>Kelola Bunga</h1>
     <form action="/admin/bunga" method="POST" enctype="multipart/form-data">
         <input type="text" name="nama_bunga" placeholder="Nama Bunga" required>

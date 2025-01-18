@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Datang di Toko Bunga</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'Adawet';
+            src: url('/fonts/Adawet.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background-color: #fffaf4;
+            color: #ffffff;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, rgba(142, 45, 226, 2.4), rgba(46, 6, 127, 2.4)); /* Opacity 80% */
+            color: white;
+            padding: 15px 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-family: 'Adawet', cursive;
+            font-size: 2.5rem;
+            margin: 0;
+            padding-right: 40px;
+        }
+
+        .btn-masuk {
+            border: none;  /* Hapus border */
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn-masuk:hover {
+            background-color: #ff5c8d;  /* Ganti warna saat hover */
+            transform: translateY(-5px);
+        }
+
+        /* Layout Gambar dan Teks */
+        .content-container {
+            position: relative;
+            width: 100%;
+            height: 500px; /* Sesuaikan tinggi container */
+            overflow: hidden;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Pastikan gambar menutupi area */
+        }
+
+        .text-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%; /* Lebar teks */
+            height: 100%;
+            backdrop-filter: blur(2px); /* Efek blur lebih lebar */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden; /* Pastikan blur tidak terlihat kotak */
+            border-radius: 20px; /* Radius lebih lebar */
+        }
+
+        /* Gradient Mask untuk Sisi Kiri */
+        .text-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px; /* Sesuaikan posisi */
+            width: 40px; /* Lebar area transisi */
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.3), transparent);
+            z-index: 1;
+        }
+
+        .text-content h2 {
+            font-size: 4rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2; /* Pastikan teks di atas gradient mask */
+            font-style: italic;
+        }
+
+        .text-content p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2; /* Pastikan teks di atas gradient mask */
+        }
+
+        /* Tombol PESAN SEKARANG */
+        .btn-pesan {
+            margin-top: 20px;
+            background-color: #8E2DE2;
+            color: white;
+            position: absolute;
+            left: 20px; /* Sesuaikan posisi */
+            bottom: 20px; /* Sesuaikan posisi */
+            padding: 10px 20px; /* Padding yang lebih kecil */
+            font-size: 1rem; /* Ukuran font yang lebih kecil */
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 3; /* Pastikan tombol di atas teks dan blur */
+        }
+
+        .btn-pesan:hover {
+            background-color: white;
+        }
+
+        /* Icon Centang */
+        .icon-check {
+            display: inline-block;
+            background-color: black;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            margin-right: 10px; /* Jarak antara ikon dan teks */
+            margin-left: 10px; /* Padding antara centang dan teks sebelumnya */
+        }
+
+        /* Tulisan di Bawah Gambar */
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Jarak antara item */
+            margin-top: 20px;
+            color: #4a4a4a;
+            text-align: center;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Jarak antara ikon dan teks */
+        }
+
+        .team-member i {
+            font-size: 24px; /* Ukuran ikon */
+            color: #8E2DE2; /* Warna ikon */
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, rgba(142, 45, 226, 2.4), rgba(46, 6, 127, 2.4)); /* Opacity 80% */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Responsif */
+        @media screen and (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .btn-masuk {
+                width: 100%;
+            }
+
+            .content-container {
+                height: 400px; /* Sesuaikan tinggi untuk mobile */
+            }
+
+            .text-content {
+                width: 100%; /* Teks memenuhi layar di perangkat kecil */
+                background: rgba(255, 255, 255, 0.5); /* Latar belakang lebih solid */
+                border-radius: 10px; /* Radius lebih kecil di mobile */
+            }
+
+            .text-content::before {
+                display: none; /* Sembunyikan gradient mask di mobile */
+            }
+
+            .text-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .btn-pesan {
+                width: calc(100% - 40px); /* Lebar tombol memenuhi layar dengan margin */
+                left: 20px; /* Posisi tombol di mobile */
+                bottom: 20px; /* Posisi tombol di mobile */
+                font-size: 1.1rem;
+            }
+
+            .team-container {
+                flex-direction: column; /* Susun vertikal di mobile */
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="container">
+        <h1>Lumière Florist</h1>
+        <a href="/auth/login" class="btn-masuk">Masuk</a>
+    </div>
+</header>
+
+<!-- Konten Utama -->
+<div class="content-container">
+    <!-- Gambar Utama -->
+    <img src="https://i.pinimg.com/736x/0f/d7/1c/0fd71c554d6d45bc158bb2a1dd9becc0.jpg" alt="Gambar Utama" class="main-image">
+
+    <!-- Teks di Sebelah Kiri dengan Efek Blur -->
+    <div class="text-content">
+        <h2>Lumière Florist</h2>
+        <p>JASA RANGKAJAN BUNGA TERBAIK SE INDONESIA</p>
+        <p>Toko bunga online Indonesia yang dapat menangani pembuatan rangkaian bunga lokal dan impor yang bisa langsung dikirim ke lokasi tujuan dengan aman.</p>
+        <div class="contact-info">
+            <p><span class="icon-check">✔</span> Florist Professional <span class="icon-check">✔</span> Proses Cepat
+            <span class="icon-check">✔</span> Pengiriman Aman</p> 
+        </div>
+    </div>
+
+    <!-- Tombol PESAN SEKARANG -->
+    <a href="/auth/login" class="btn-pesan">PESAN SEKARANG</a>
+</div>
+
+<!-- Tulisan di Bawah Gambar -->
+<div class="team-container">
+    <div class="team-member">
+        <i class="fa fa-user"></i>
+        <p>Muhammad Faransyah Hamizan</p>
+    </div>
+    <div class="team-member">
+        <i class="fa fa-user"></i>
+        <p>Dhea Kania Putri</p>
+    </div>
+    <div class="team-member">
+        <i class="fa fa-user"></i>
+        <p>Laluna Riska</p>
+    </div>
+    <div class="team-member">
+        <i class="fa fa-user"></i>
+        <p>Muhammad Zayyan I'zaaz</p>
+    </div>
+    <div class="team-member">
+        <i class="fa fa-user"></i>
+        <p>Dina Amalia</p>
+    </div>
+    <div class="team-member">
+        <i class="fa fa-user"></i>
+        <p>Anggia Intan</p>
+    </div>
+    <div class="team-member">
+        <i class="fa fa-user"></i>
+        <p>Naufal Ikhwan Bayazid</p>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Toko Bunga | All Rights Reserved</p>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

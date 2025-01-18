@@ -28,10 +28,31 @@ router.get('/bunga', isAdmin, (req, res) => {
     });
 });
 
+// Route untuk menampilkan halaman kelola pesanan
+router.get('/pesanan', isAdmin, (req, res) => {
+    // Query untuk mengambil data pesanan dari database
+    db.query('SELECT * FROM orders', (err, orders) => {
+        if (err) {
+            console.error('Error fetching orders:', err);
+            return res.status(500).send('Terjadi kesalahan saat mengambil data pesanan.');
+        }
+
+        // Render halaman pesanan dengan data yang diambil
+        res.render('admin/pesanan', {
+            orders: orders, // Kirim data pesanan ke view
+        });
+    });
+});
+
 // POST: Tambah Bunga Baru
 router.post('/bunga', isAdmin, upload.single('gambar'), (req, res) => {
     const { nama_bunga, deskripsi, harga, stok } = req.body;
     const gambar = `/uploads/${req.file.filename}`; // Path relatif untuk gambar
+
+    // Validasi input
+    if (!nama_bunga || !deskripsi || !harga || !stok || !gambar) {
+        return res.status(400).send('Semua field harus diisi.');
+    }
 
     db.query(
         'INSERT INTO bunga (nama_bunga, deskripsi, harga, stok, gambar) VALUES (?, ?, ?, ?, ?)',
@@ -75,12 +96,21 @@ router.post('/bunga/update/:id', isAdmin, upload.single('gambar'), (req, res) =>
 router.get('/bunga/delete/:id', isAdmin, (req, res) => {
     const { id } = req.params;
 
-    db.query('DELETE FROM bunga WHERE kd_bunga = ?', [id], (err) => {
+    // Hapus data terkait di tabel orders terlebih dahulu
+    db.query('DELETE FROM orders WHERE kd_bunga = ?', [id], (err) => {
         if (err) {
-            console.error('Error saat menghapus bunga:', err);
-            return res.status(500).send('Error menghapus bunga');
+            console.error('Error saat menghapus data di orders:', err);
+            return res.status(500).send('Error menghapus data di orders');
         }
-        res.redirect('/admin/bunga');
+
+        // Hapus data di tabel bunga
+        db.query('DELETE FROM bunga WHERE kd_bunga = ?', [id], (err) => {
+            if (err) {
+                console.error('Error saat menghapus bunga:', err);
+                return res.status(500).send('Error menghapus bunga');
+            }
+            res.redirect('/admin/bunga');
+        });
     });
 });
 

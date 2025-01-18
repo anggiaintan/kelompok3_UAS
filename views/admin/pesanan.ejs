@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Pesanan | Toko Bunga</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        header {
+            background-color: #FFB6C1; /* Pastel Pink */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative; /* Untuk posisi tombol back */
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #81C784; /* Pastel Green */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #66BB6A; /* Warna lebih gelap saat hover */
+            transform: translateY(-2px);
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #FFB6C1;
+        }
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+        footer {
+            background-color: #B2DFDB; /* Pastel Teal */
+            color: #333;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 50px;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            padding: 8px;
+            width: 200px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #81C784;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px auto;
+            display: block;
+        }
+        .btn:hover {
+            background-color: #66BB6A;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Tombol Back -->
+        <a href="/admin/dashboard" class="back-button">Back</a>
+        <h1>Kelola Pesanan</h1>
+    </header>
+
+    <!-- Pencarian Pesanan -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Cari ID Pesanan..." onkeyup="filterTable()">
+    </div>
+
+    <!-- Tabel untuk menampilkan pesanan -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID Pesanan</th>
+                <th>Jumlah</th>
+                <th>Tanggal Pesanan</th>
+                <th>Total Harga</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% orders.forEach(order => { %>
+                <tr>
+                    <td><%= order.id_order %></td>
+                    <td><%= order.jumlah %></td>
+                    <td><%= new Date(order.tanggal_pesanan).toLocaleDateString() %></td>
+                    <td>Rp <%= order.total_harga.toFixed(2) %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <!-- Tombol Cetak -->
+    <button class="btn" onclick="window.print()">Cetak Laporan</button>
+
+    <footer>
+        <p>&copy; 2024 Toko Bunga | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector("table");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) { // Mulai dari 1 untuk melewati header
+                td = tr[i].getElementsByTagName("td")[0]; // Cari ID Pesanan di kolom pertama
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

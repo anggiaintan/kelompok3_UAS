@@ -1,22 +1,99 @@
-<h1>Kelola Bunga</h1>
-<form action="/admin/bunga" method="POST">
-    <input type="text" name="nama" placeholder="Nama Bunga" required />
-    <textarea name="deskripsi" placeholder="Deskripsi" required></textarea>
-    <input type="number" name="harga" placeholder="Harga" required />
-    <input type="number" name="stok" placeholder="Stok" required />
-    <input type="text" name="gambar" placeholder="URL Gambar" required />
-    <button type="submit">Tambah Bunga</button>
-</form>
-<ul>
-    <% bunga.forEach(item => { %>
-        <li>
-            <h2><%= item.nama_bunga %></h2>
-            <p><%= item.deskripsi %></p>
-            <p>Harga: Rp <%= item.harga %></p>
-            <form action="/admin/bunga/delete" method="POST">
-                <input type="hidden" name="kd_bunga" value="<%= item.kd_bunga %>" />
-                <button type="submit">Hapus</button>
-            </form>
-        </li>
-    <% }); %>
-</ul>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Bunga</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #81C784;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #66BB6A;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #81C784;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .back-button:hover {
+            background-color: #66BB6A;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kelola Bunga</h1>
+
+    <!-- Form untuk tambah bunga -->
+    <form action="/admin/bunga" method="POST">
+        <input type="text" name="nama" placeholder="Nama Bunga" required />
+        <textarea name="deskripsi" placeholder="Deskripsi" required></textarea>
+        <input type="number" name="harga" placeholder="Harga" required />
+        <input type="number" name="stok" placeholder="Stok" required />
+        <input type="text" name="gambar" placeholder="URL Gambar" required />
+        <button type="submit">Tambah Bunga</button>
+    </form>
+
+    <!-- Tombol Kembali ke Dashboard -->
+    <a href="/admin/dashboard" class="back-button">Kembali ke Dashboard</a>
+
+    <!-- Daftar Bunga -->
+    <ul>
+        <% bunga.forEach(item => { %>
+            <li>
+                <h2><%= item.nama_bunga %></h2>
+                <p><%= item.deskripsi %></p>
+                <p>Harga: Rp <%= item.harga %></p>
+                <p>Stok: <%= item.stok %></p>
+                <img src="<%= item.gambar %>" alt="<%= item.nama_bunga %>" style="max-width: 100%; height: auto; border-radius: 5px;" />
+                <form action="/admin/bunga/delete" method="POST" style="margin-top: 10px;">
+                    <input type="hidden" name="kd_bunga" value="<%= item.kd_bunga %>" />
+                    <button type="submit" style="background-color: #ff6b6b;">Hapus</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
